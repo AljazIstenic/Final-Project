@@ -11,10 +11,10 @@ Pokemon <- read_csv("~/GitHub/GroupProject/Pokemon.csv")
 View(Pokemon)
 
 Selected<-select(Pokemon,Name,Total,Generation,starts_with("Type"), Legendary)
-Filtered<-filter(Selected, Generation==1, Legendary=="False", !grepl('Mega', Name))
+Filtered<-filter(Selected, Generation==1, !grepl('Mega', Name))
 Gen1<-select(Filtered, Name,Total,starts_with("Type"))
 arrange(Gen1, desc(Total))
-Type<-group_by(Gen1, `Type 1`)
+Type<-group_by(Gen1, Type1)
 Mean<-summarise(Type,avgT=mean(Total))
 arrange(Mean,desc(avgT))
 Mean
