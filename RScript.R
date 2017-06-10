@@ -17,3 +17,4 @@ arrange(Gen1, desc(Total))
 Type<-group_by(Gen1, `Type 1`)
 Mean<-summarise(Type,avgT=mean(Total))
 arrange(Mean,desc(avgT))
+Mean
