@@ -23,6 +23,6 @@ g
 
 GenX<-select(Pokemon, Name, Total, Generation)
 GenAvg<-group_by(GenX, Generation)%>%summarise(avgT=mean(Total))
-Genplot<-ggplot(GenAvg, aes(x=Generation, y=avgT))+geom_point()
+Genplot<-ggplot(GenAvg, aes(x=Generation, y=avgT))+geom_bar(stat='Identity')
 Genplot
 GenAvg
