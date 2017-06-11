@@ -20,3 +20,9 @@ filter(Gen1, Type2=='Ice')
 
 g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
 g
+
+GenX<-select(Pokemon, Name, Total, Generation)
+GenAvg<-group_by(GenX, Generation)%>%summarise(avgT=mean(Total))
+Genplot<-ggplot(GenAvg, aes(x=Generation, y=avgT))+geom_point()
+Genplot
+GenAvg
