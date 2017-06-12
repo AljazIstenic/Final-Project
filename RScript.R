@@ -12,10 +12,14 @@ View(Pokemon)
 
 Gen1<-select(Pokemon,Name,Total,Generation,starts_with("Type"), Legendary)%>%filter(Generation==1, !grepl('Mega', Name))%>%select(Name,Total,starts_with("Type"))
 arrange(Gen1, desc(Total))
-Type<-group_by(Gen1, Type1)
-Mean<-summarise(Type,avgT=mean(Total))
-arrange(Mean,desc(avgT))
+TypeMean<-group_by(Gen1, Type1)%>%summarise(avgT=mean(Total))%>%arrange(desc(avgT))
+TypeMean
 filter(Gen1, Type1=='Ice' | Type2=='Ice')
+
+Leg<-filter(Pokemon, Legendary=='TRUE')%>%select(Name,Total, starts_with("Ty"), Generation)%>%arrange(desc(Total))
+LegGen<-group_by(Leg, Generation)%>%summarise(avgT=mean(Total))%>%arrange(desc(avgT))
+LegGen
+filter(Leg, Generation==1)
 
 g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
 g
