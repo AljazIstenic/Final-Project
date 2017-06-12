@@ -17,12 +17,13 @@ TypeMean
 filter(Gen1, Type1=='Ice' | Type2=='Ice')
 
 Leg<-filter(Pokemon, Legendary=='TRUE')%>%select(Name,Total, starts_with("Ty"), Generation)%>%arrange(desc(Total))
-LegGen<-group_by(Leg, Generation)%>%summarise(avgT=mean(Total))%>%arrange(desc(avgT))
+LegGen<-group_by(Leg, Generation)%>%summarise(avgLeg=mean(Total))%>%arrange(desc(avgLeg))
 LegGen
 filter(Leg, Generation==1)
 
 g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
-g
+gLeg<- ggplot(LegGen, aes(x=Generation, y=avgLeg))+geom_line()
+gLeg
 
 GenX<-select(Pokemon, Name, Total, Generation)
 GenAvg<-group_by(GenX, Generation)%>%summarise(avgT=mean(Total))
