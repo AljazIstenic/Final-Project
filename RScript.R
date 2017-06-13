@@ -15,18 +15,28 @@ arrange(Gen1, desc(Total))
 TypeMean<-group_by(Gen1, Type1)%>%summarise(avgT=mean(Total))%>%arrange(desc(avgT))
 TypeMean
 filter(Gen1, Type1=='Ice' | Type2=='Ice')
+g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
+g
+
+AvgSpeed<-select(Pokemon, Name,Speed,Generation)%>%group_by(Generation)%>%summarise(avgSpeed=mean(Speed))
+AvgSpeed
+gSpeed<-ggplot(AvgSpeed, aes(x=Generation, y=avgSpeed))+geom_line()
+gSpeed
+
+AvgHP<-select(Pokemon, Name, HP, Generation)%>%group_by(Generation)%>%summarise(avgHP=mean(HP))
+AvgHP
+gHP<-ggplot(AvgHP, aes(x=Generation, y=avgHP))+geom_line()
+gHP
 
 Leg<-filter(Pokemon, Legendary=='TRUE')%>%select(Name,Total, starts_with("Ty"), Generation)%>%arrange(desc(Total))
 LegGen<-group_by(Leg, Generation)%>%summarise(avgLeg=mean(Total))%>%arrange(desc(avgLeg))
 LegGen
 filter(Leg, Generation==1)
-
-g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
 gLeg<- ggplot(LegGen, aes(x=Generation, y=avgLeg))+geom_line()
 gLeg
 
 GenX<-select(Pokemon, Name, Total, Generation)
-GenAvg<-group_by(GenX, Generation)%>%summarise(avgT=mean(Total))
-Genplot<-ggplot(GenAvg, aes(x=Generation, y=avgT))+geom_bar(stat='Identity')
+GenAvg<-group_by(GenX, Generation)%>%summarise(avgGen=mean(Total))
+Genplot<-ggplot(GenAvg, aes(x=Generation, y=avgGen))+geom_bar(stat='Identity')
 Genplot
 GenAvg
