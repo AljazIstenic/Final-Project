@@ -18,6 +18,13 @@ filter(Gen1, Type1=='Ice' | Type2=='Ice')
 g <- ggplot(Gen1, aes(x=Type1, y=Total))+geom_point()
 g
 
+Gen1_by_type<-select(Pokemon,Name,Total,Generation,starts_with("Type"), Legendary)%>%filter(Generation==1, !grepl('Mega', Name))%>%select(Name,Total,starts_with("Type"))%>%count(Type1)
+Gen1_by_type
+TypeCounter<-group_by(Pokemon, Generation)%>%count(Type1)
+TypeCounter
+gCount<- ggplot(TypeCounter, aes(x=Generation, y=n, colour=Type1)) + geom_line(aes(y=n))
+gCount
+
 AvgSpeed<-select(Pokemon, Name,Speed,Generation)%>%group_by(Generation)%>%summarise(avgSpeed=mean(Speed))
 AvgSpeed
 gSpeed<-ggplot(AvgSpeed, aes(x=Generation, y=avgSpeed))+geom_line()
@@ -27,6 +34,9 @@ AvgHP<-select(Pokemon, Name, HP, Generation)%>%group_by(Generation)%>%summarise(
 AvgHP
 gHP<-ggplot(AvgHP, aes(x=Generation, y=avgHP))+geom_line()
 gHP
+
+TypeCount<-ggplot(Pokemon, aes(Pokemon$Type1)) + geom_bar(aes(fill = as.factor(Pokemon$Type1))) + labs(x= "Type", title = "Pokemon Types") + scale_fill_discrete(name="Types")
+TypeCount
 
 Leg<-filter(Pokemon, Legendary=='TRUE')%>%select(Name,Total, starts_with("Ty"), Generation)%>%arrange(desc(Total))
 LegGen<-group_by(Leg, Generation)%>%summarise(avgLeg=mean(Total))%>%arrange(desc(avgLeg))
